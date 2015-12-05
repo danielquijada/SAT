@@ -20,8 +20,64 @@ package modelo;
 
 
 /**
- * TODO Descripción de la clase.
+ * Clase que representa una variable.
  */
 public class Variable {
 
+   private char nombre;
+   private boolean negado;
+   
+   
+   /**
+    * Constructor por defecto, coloca el nombre recibido.
+    * @param nombre nombre de la variable.
+    */
+   public Variable (char nombre) {
+      setNombre (nombre);
+      setNegado (false);
+   }
+   
+   /**
+    * Cambia el valor de negado.
+    */
+   public void toggleNegado () {
+      setNegado (!isNegado ());
+   }
+   
+   /* (non-Javadoc)
+    * @see java.lang.Object#equals(java.lang.Object)
+    */
+   @Override
+   public boolean equals (Object obj) {
+      Variable otro = (Variable) obj;
+      return otro.getNombre () == getNombre () && otro.isNegado () == isNegado ();
+   }
+   
+   /**
+    * @return the nombre
+    */
+   public char getNombre () {
+      return nombre;
+   }
+   
+   /**
+    * @param nombre the nombre to set
+    */
+   public void setNombre (char nombre) {
+      this.nombre = nombre;
+   }
+   
+   /**
+    * @return the negado
+    */
+   public boolean isNegado () {
+      return negado;
+   }
+   
+   /**
+    * @param negado the negado to set
+    */
+   public void setNegado (boolean negado) {
+      this.negado = negado;
+   }
 }

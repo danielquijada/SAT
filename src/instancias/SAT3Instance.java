@@ -18,10 +18,28 @@
  */
 package instancias;
 
+import java.util.Iterator;
+import modelo.Clause;
+
 
 /**
- * TODO Descripción de la clase.
+ * Clase que representa una instancia del problema 3SAT.
  */
-public class SAT3Instance {
+public class SAT3Instance extends SATInstance {
 
+   /**
+    * Comprueba si la instancia es una instancia válida para el problema 3SAT.
+    * @return es valida la instancia.
+    */
+   public boolean isValido () {
+      boolean valido = true;
+      
+      Iterator<Clause> iter = getClausulas ().iterator ();
+      
+      while (iter.hasNext ()) {
+         valido = valido && iter.next ().getClausula ().size () == 3;
+      }
+      
+      return valido;
+   }
 }

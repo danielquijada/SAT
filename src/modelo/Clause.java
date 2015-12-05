@@ -16,12 +16,50 @@
  * 	Mauricio Manuel Cavalleri Sergent
  * 		Contacto: maurimanuel92@gmail.com
  */
+
 package modelo;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
- * TODO Descripción de la clase.
+ * Clase que representa una clausula del problema SAT.
  */
 public class Clause {
 
+   private Set<Variable> clausula;
+
+   /**
+    * Añade una variable a la cláusula.
+    * 
+    * @param var
+    *           variable a añadir.
+    */
+   public void add (Variable var) {
+      getClausula ().add (var);
+   }
+
+   /**
+    * Constructor por defecto.
+    */
+   public Clause () {
+      setClausula (new TreeSet<Variable> ());
+   }
+
+   /**
+    * @return the clausula
+    */
+   public Set<Variable> getClausula () {
+      return clausula;
+   }
+
+
+   /**
+    * @param clausula
+    *           the clausula to set
+    */
+   public void setClausula (Set<Variable> clausula) {
+      this.clausula = clausula;
+   }
 }

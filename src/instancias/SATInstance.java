@@ -18,10 +18,44 @@
  */
 package instancias;
 
+import java.util.ArrayList;
+import java.util.Set;
+import modelo.Clause;
+import modelo.Variable;
+
 
 /**
- * TODO Descripción de la clase.
+ * Clase que representa una instancia del problema SAT.
  */
 public class SATInstance {
-
+   private Set<Variable> variables; // U
+   private ArrayList<Clause> clausulas; // C
+   
+   /**
+    * @return the variables
+    */
+   public Set<Variable> getVariables () {
+      return variables;
+   }
+   
+   /**
+    * @param variables the variables to set
+    */
+   public void setVariables (Set<Variable> variables) {
+      this.variables = variables;
+   }
+   
+   /**
+    * @return the clausulas
+    */
+   public ArrayList<Clause> getClausulas () {
+      return clausulas;
+   }
+   
+   /**
+    * @param clausulas the clausulas to set
+    */
+   public void setClausulas (ArrayList<Clause> clausulas) {
+      this.clausulas = clausulas;
+   }
 }
