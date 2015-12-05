@@ -19,7 +19,9 @@
 package instancias;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 import modelo.Clause;
 import modelo.Variable;
 
@@ -30,6 +32,28 @@ import modelo.Variable;
 public class SATInstance {
    private Set<Variable> variables; // U
    private ArrayList<Clause> clausulas; // C
+   
+   
+   /**
+    * Constructor por defecto.
+    */
+   public SATInstance () {
+      setVariables (new TreeSet<Variable> ());
+      setClausulas (new ArrayList<Clause> ());
+   }
+   
+   /**
+    * Método que coge las variables de las clausulas.
+    */
+   public void rellenaVariables () {
+      setVariables (new TreeSet<Variable> ());
+      Iterator <Clause> iter = getClausulas ().iterator ();
+      
+      while (iter.hasNext ()) {
+         Clause aux = iter.next ();
+         getVariables ().addAll (aux.getClausula ());
+      }
+   }
    
    /**
     * @return the variables

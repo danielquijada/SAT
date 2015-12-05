@@ -24,15 +24,16 @@ package modelo;
  */
 public class Variable {
 
-   private char nombre;
+   private String nombre;
    private boolean negado;
+   private boolean valor;
    
    
    /**
     * Constructor por defecto, coloca el nombre recibido.
     * @param nombre nombre de la variable.
     */
-   public Variable (char nombre) {
+   public Variable (String nombre) {
       setNombre (nombre);
       setNegado (false);
    }
@@ -50,20 +51,20 @@ public class Variable {
    @Override
    public boolean equals (Object obj) {
       Variable otro = (Variable) obj;
-      return otro.getNombre () == getNombre () && otro.isNegado () == isNegado ();
+      return otro.getNombre () == getNombre ();
    }
    
    /**
     * @return the nombre
     */
-   public char getNombre () {
+   public String getNombre () {
       return nombre;
    }
    
    /**
     * @param nombre the nombre to set
     */
-   public void setNombre (char nombre) {
+   public void setNombre (String nombre) {
       this.nombre = nombre;
    }
    
@@ -79,5 +80,21 @@ public class Variable {
     */
    public void setNegado (boolean negado) {
       this.negado = negado;
+   }
+
+   
+   /**
+    * @return the valor
+    */
+   public boolean isValor () {
+      return valor;
+   }
+
+   
+   /**
+    * @param valor the valor to set
+    */
+   public void setValor (boolean valor) {
+      this.valor = valor;
    }
 }

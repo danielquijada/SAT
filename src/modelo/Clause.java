@@ -19,8 +19,7 @@
 
 package modelo;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
 
 
 /**
@@ -28,7 +27,7 @@ import java.util.TreeSet;
  */
 public class Clause {
 
-   private Set<Variable> clausula;
+   private ArrayList <Variable> clausula;
 
    /**
     * Añade una variable a la cláusula.
@@ -44,13 +43,13 @@ public class Clause {
     * Constructor por defecto.
     */
    public Clause () {
-      setClausula (new TreeSet<Variable> ());
+      setClausula (new ArrayList <Variable> ());
    }
 
    /**
     * @return the clausula
     */
-   public Set<Variable> getClausula () {
+   public ArrayList <Variable> getClausula () {
       return clausula;
    }
 
@@ -59,7 +58,7 @@ public class Clause {
     * @param clausula
     *           the clausula to set
     */
-   public void setClausula (Set<Variable> clausula) {
+   public void setClausula (ArrayList <Variable> clausula) {
       this.clausula = clausula;
    }
 }
