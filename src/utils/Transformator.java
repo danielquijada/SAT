@@ -27,7 +27,7 @@ import modelo.Variable;
 
 
 /**
- * TODO Descripción de la clase.
+ * Clase para transformar una entrada SAT en una entrada 3SAT.
  */
 public class Transformator {
 

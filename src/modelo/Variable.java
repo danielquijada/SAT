@@ -16,36 +16,53 @@
  * 	Mauricio Manuel Cavalleri Sergent
  * 		Contacto: maurimanuel92@gmail.com
  */
+
 package modelo;
 
 
 /**
  * Clase que representa una variable.
  */
-public class Variable implements Comparable<Variable>{
+public class Variable implements Comparable<Variable> {
 
-   private String nombre;
+   private String  nombre;
    private boolean negado;
    private boolean valor;
-   
-   
+
+
    /**
     * Constructor por defecto, coloca el nombre recibido.
-    * @param nombre nombre de la variable.
+    * 
+    * @param nombre
+    *           nombre de la variable.
     */
    public Variable (String nombre) {
       setNombre (nombre);
       setNegado (false);
    }
-   
+
    /**
     * Cambia el valor de negado.
     */
    public void toggleNegado () {
       setNegado (!isNegado ());
    }
-   
-   /* (non-Javadoc)
+
+   /**
+    * Devuelve un objeto igual pero con el boolean negado cambiado.
+    * 
+    * @return la misma variable negada
+    */
+   public Variable negado () {
+      Variable negada = new Variable (getNombre ());
+      negada.setNegado (!isNegado ());
+
+      return negada;
+   }
+
+   /*
+    * (non-Javadoc)
+    * 
     * @see java.lang.Object#equals(java.lang.Object)
     */
    @Override
@@ -53,36 +70,38 @@ public class Variable implements Comparable<Variable>{
       Variable otro = (Variable) obj;
       return otro.getNombre () == getNombre ();
    }
-   
+
    /**
     * @return the nombre
     */
    public String getNombre () {
       return nombre;
    }
-   
+
    /**
-    * @param nombre the nombre to set
+    * @param nombre
+    *           the nombre to set
     */
    public void setNombre (String nombre) {
       this.nombre = nombre;
    }
-   
+
    /**
     * @return the negado
     */
    public boolean isNegado () {
       return negado;
    }
-   
+
    /**
-    * @param negado the negado to set
+    * @param negado
+    *           the negado to set
     */
    public void setNegado (boolean negado) {
       this.negado = negado;
    }
 
-   
+
    /**
     * @return the valor
     */
@@ -90,9 +109,10 @@ public class Variable implements Comparable<Variable>{
       return valor;
    }
 
-   
+
    /**
-    * @param valor the valor to set
+    * @param valor
+    *           the valor to set
     */
    public void setValor (boolean valor) {
       this.valor = valor;
@@ -102,15 +122,15 @@ public class Variable implements Comparable<Variable>{
     * Método toString sobrecargado para facilitar la impresión de las variables.
     */
    @Override
-	public String toString() {
-	   if(isNegado())
-		   return "$" + getNombre();
-	   else
-		   return getNombre();
-	}
+   public String toString () {
+      if (isNegado ())
+         return "$" + getNombre ();
+      else
+         return getNombre ();
+   }
 
-	@Override
-	public int compareTo(Variable var) {
-		return getNombre().compareTo(var.getNombre());
-	}
+   @Override
+   public int compareTo (Variable var) {
+      return getNombre ().compareTo (var.getNombre ());
+   }
 }

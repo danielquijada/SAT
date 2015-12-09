@@ -75,7 +75,6 @@ public class ReaderWriter {
 		}
 		satins.setClausulas(clausulas);
 		
-		// TODO: Quitar esta puta mierda
 		satins.rellenaVariables();
 		
 		getLector().close();

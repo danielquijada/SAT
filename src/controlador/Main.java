@@ -1,8 +1,8 @@
-package utils;
+package controlador;
 
 import instancias.SAT3Instance;
-
 import java.io.IOException;
+import utils.ReaderWriter;
 
 public class Main {
 
@@ -12,14 +12,14 @@ public class Main {
 		
 		// Prueba lectura
 		try {
-			rw.read("Entrada.in", ins);
+			rw.read("res/Entrada.in", ins);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		// Prueba escritura
 		try {
-			rw.write("Salida.out", ins);
+			rw.write("res/Salida.out", ins);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
