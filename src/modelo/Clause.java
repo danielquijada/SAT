@@ -61,4 +61,17 @@ public class Clause {
    public void setClausula (ArrayList <Variable> clausula) {
       this.clausula = clausula;
    }
+   
+   /**
+    * Sobrecarga del metodo toString para facilitar la impresión de las clausulas.
+    */
+   @Override
+	public String toString() {
+	   String aux = "[ ";
+	   for(Variable var : getClausula()) {
+		   aux += var + " ";
+	   }
+	   aux += "]";
+	   return aux;
+	}
 }

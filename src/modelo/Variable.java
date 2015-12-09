@@ -22,7 +22,7 @@ package modelo;
 /**
  * Clase que representa una variable.
  */
-public class Variable {
+public class Variable implements Comparable<Variable>{
 
    private String nombre;
    private boolean negado;
@@ -97,4 +97,20 @@ public class Variable {
    public void setValor (boolean valor) {
       this.valor = valor;
    }
+
+   /**
+    * Método toString sobrecargado para facilitar la impresión de las variables.
+    */
+   @Override
+	public String toString() {
+	   if(isNegado())
+		   return "$" + getNombre();
+	   else
+		   return getNombre();
+	}
+
+	@Override
+	public int compareTo(Variable var) {
+		return getNombre().compareTo(var.getNombre());
+	}
 }
