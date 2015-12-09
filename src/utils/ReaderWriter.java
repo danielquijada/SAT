@@ -16,18 +16,16 @@
  * 	Mauricio Manuel Cavalleri Sergent
  * 		Contacto: maurimanuel92@gmail.com
  */
+
 package utils;
 
 import instancias.SATInstance;
-
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
 import modelo.Clause;
 import modelo.Variable;
 
@@ -36,90 +34,122 @@ import modelo.Variable;
  * Clase que se encarga de la entrada y la salida mediante ficheros.
  */
 public class ReaderWriter {
-	public static final String SPLITTER = "";
-	
-	// Lector y escritor
-	private BufferedReader lector;
-	private PrintWriter escritor;
 
-	/**
-	 * Método que lee del fichero de entrada
-	 * @param fileIn Nombre del fichero de entrada
-	 * @param satins Instancia de SAT
-	 * @throws IOException
-	 */
-	public void read(String fileIn, SATInstance satins) throws IOException {
-		String [] clausula;
-		ArrayList<Clause> clausulas = new ArrayList<Clause>();
-		setLector(new BufferedReader(new FileReader(fileIn)));
-		
-		// Leer clausulas
-		while(getLector().ready()) {
-			clausula = getLector().readLine().split(" ");
-			// TODO: Mirar si hay problemas con las referencias!!!!
-			Clause auxClausula = new Clause();
-			for(String name : clausula) {
-				if(name.split(SPLITTER).length == 1)
-					auxClausula.add(new Variable(name));
-				else if (name.split(SPLITTER)[0].equals("$")){
-					auxClausula.add(new Variable(name.split(SPLITTER)[1]));
-					auxClausula.getClausula().get(auxClausula.getClausula().size() - 1).toggleNegado();
-				}
-				else {
-					System.err.println("Simbolo " + name.split(SPLITTER)[0] + " no identificado. Añadida variable como negada");
-					auxClausula.add(new Variable(name.split(SPLITTER)[1]));
-					auxClausula.getClausula().get(auxClausula.getClausula().size() - 1).toggleNegado();
-				}
-			}
-			clausulas.add(auxClausula);
-		}
-		satins.setClausulas(clausulas);
-		
-		satins.rellenaVariables();
-		
-		getLector().close();
-	}
+   public static final String SPLITTER = "";
 
-	/**
-	 * Método que escribe en el fichero de salida
-	 * @param fileOut  Nombre del fichero de salida
-	 * @param satins Instancia del SAT
-	 * @throws IOException
-	 */
-	public void write(String fileOut, SATInstance satins) throws IOException {
-		setEscritor(new PrintWriter(new BufferedWriter(new FileWriter(fileOut))));
-		
-		// Escribir variables
-		for(Variable var : satins.getVariables())
-			getEscritor().print(var.getNombre() + " ");
-		getEscritor().println(SPLITTER);
-		
-		// Escribir clausulas
-		ArrayList<Clause> clausulas = satins.getClausulas();
-		for(Clause clausula : clausulas) {
-			for(Variable var : clausula.getClausula())
-				getEscritor().print(var + " ");
-			getEscritor().println(SPLITTER);
-		}
-		
-		getEscritor().close();
-	}
-	
+   /**
+    * Método que lee del fichero de entrada.
+    * 
+    * @param filename
+    *           nombre del fichero de entrada.
+    * @return Instancia del problema SAT.
+    * @throws IOException
+    */
+   public static SATInstance read (String filename) throws IOException {
 
-	// Getters y setters
-	public BufferedReader getLector() {
-		return lector;
-	}
+      SATInstance sati = new SATInstance ();
 
-	public void setLector(BufferedReader lector) {
-		this.lector = lector;
-	}
+      BufferedReader br = new BufferedReader (new FileReader (filename));
+      String linea;
 
-	public PrintWriter getEscritor() {
-		return escritor;
-	}
+      while ((linea = br.readLine ()) != null) {
+         if (linea.trim ().length () > 0)
+            sati.addClause (readLine (linea));
+      }
 
-	public void setEscritor(PrintWriter escritor) {
-		this.escritor = escritor;
-	}
+      br.close ();
+      sati.rellenaVariables ();
+
+      return sati;
+   }
+
+   /**
+    * Lee una línea y devuelve la cláusula que le corresponde.
+    * 
+    * @param linea
+    *           linea a leer
+    * @return clausula a añadir
+    */
+   private static Clause readLine (String linea) {
+
+      Clause clausula = new Clause ();
+
+      String[] nombresVariables = linea.split (" ");
+      ArrayList<Variable> variables = getVariables (nombresVariables);
+      for (Variable var : variables) {
+         clausula.add (var);
+      }
+
+      return clausula;
+   }
+
+   /**
+    * Devuelve un ArrayList de variables.
+    * 
+    * @param nombresVariables
+    *           array con los nombres de las variables.
+    * @return ArrayList con las variables descritas en nombresVariables.
+    */
+   private static ArrayList<Variable> getVariables (String[] nombresVariables) {
+
+      ArrayList<Variable> variables = new ArrayList<Variable> ();
+
+      for (String variable : nombresVariables) {
+         String nombre;
+         boolean negado;
+
+         if (variable.charAt (0) == '$') {
+            nombre = variable.substring (1);
+            negado = true;
+         } else {
+            nombre = variable;
+            negado = false;
+         }
+
+         Variable var = new Variable (nombre);
+         var.setNegado (negado);
+         variables.add (var);
+      }
+
+      return variables;
+   }
+
+   /**
+    * Método que escribe en el fichero de salida
+    * 
+    * @param filename
+    *           Nombre del fichero de salida
+    * @param satInstance
+    *           Instancia del SAT
+    * @throws IOException
+    */
+   public static void write (String filename, SATInstance satInstance) throws IOException {
+      System.out.println (satInstance);
+
+      PrintWriter pw = new PrintWriter (new File (filename));
+
+      for (Clause clausula : satInstance.getClausulas ()) {
+         pw.println (write (clausula));
+      }
+
+      pw.close ();
+   }
+
+   /**
+    * Método para escribir una cláusula.
+    * 
+    * @param clausula
+    * @return cadena en la que se representa una cláusula.
+    */
+   private static String write (Clause clausula) {
+      String cadena = "";
+
+      for (Variable var : clausula.getClausula ()) {
+         if (var.isNegado ())
+            cadena += "$";
+         cadena += var.getNombre () + " ";
+      }
+
+      return cadena.trim ();
+   }
 }

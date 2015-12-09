@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class Clause {
 
-   private ArrayList <Variable> clausula;
+   private ArrayList<Variable> clausula;
 
    /**
     * Añade una variable a la cláusula.
@@ -43,13 +43,13 @@ public class Clause {
     * Constructor por defecto.
     */
    public Clause () {
-      setClausula (new ArrayList <Variable> ());
+      setClausula (new ArrayList<Variable> ());
    }
 
    /**
     * @return the clausula
     */
-   public ArrayList <Variable> getClausula () {
+   public ArrayList<Variable> getClausula () {
       return clausula;
    }
 
@@ -58,20 +58,21 @@ public class Clause {
     * @param clausula
     *           the clausula to set
     */
-   public void setClausula (ArrayList <Variable> clausula) {
+   public void setClausula (ArrayList<Variable> clausula) {
       this.clausula = clausula;
    }
-   
+
    /**
     * Sobrecarga del metodo toString para facilitar la impresión de las clausulas.
     */
    @Override
-	public String toString() {
-	   String aux = "[ ";
-	   for(Variable var : getClausula()) {
-		   aux += var + " ";
-	   }
-	   aux += "]";
-	   return aux;
-	}
+   public String toString () {
+      String aux = "[ ";
+      for (Variable var : getClausula ()) {
+         aux += var + " ∨ ";
+      }
+
+      aux = aux.substring (0, aux.length () - 2) + "]";
+      return aux;
+   }
 }

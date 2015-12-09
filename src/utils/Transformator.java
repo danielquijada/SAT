@@ -41,8 +41,9 @@ public class Transformator {
       SAT3Instance resultado = new SAT3Instance ();
       
       Iterator<Clause> iter = sat.getClausulas ().iterator ();
+      int i = 1;
       while (iter.hasNext ()) {
-         auxClausulas = trans(iter.next ());
+         auxClausulas = trans(i++, iter.next ());
          resultado.getClausulas ().addAll (auxClausulas);
       }
       
@@ -52,40 +53,87 @@ public class Transformator {
    
    /**
     * 
+    * @param index 
     * @param clausula
     * @return
     */
-   private static ArrayList <Clause> trans (Clause clausula) {
+   private static ArrayList <Clause> trans (int index, Clause clausula) {
       switch (clausula.getClausula ().size ()) {
          case 0:
             return null;
          case 1:
-            return case1 (clausula);
+            return case1 (index,clausula);
          case 2:
-            return case2(clausula);
+            return case2(index,clausula);
          case 3:
-            return case3(clausula);
+            return case3(index,clausula);
          default:
-            return case4(clausula);
+            return case4(index,clausula);
       }
    }
 
    /**
     * Método que resuelve el caso de la transformación SAT-3SAT en el cual la clausula tiene más de 3 variables.
+    * @param index 
     * @param clausula clausula del SAT 
     * @return clasula del 3SAT
     */
-   private static ArrayList<Clause> case4 (Clause clausula) {
+   private static ArrayList<Clause> case4 (int index, Clause clausula) {
+      ArrayList <Clause> resultado = new ArrayList<Clause> ();
+      Clause nuevaClausula;
+      Variable yji = new Variable ("y_" + index + "_1");
+      Variable yjk = null;
       
-      return null;
+      Variable vari = clausula.getClausula ().get (0);
+      Variable varj = clausula.getClausula ().get (1);
+      
+      // Primera cláusula
+      nuevaClausula = new Clause ();
+      nuevaClausula.add (vari);
+      nuevaClausula.add (varj);
+      nuevaClausula.add (yji);
+      
+      resultado.add (nuevaClausula);
+      
+      // Cada iteración es una clausula.
+      for (int i = 2; i < clausula.getClausula ().size () - 2; i++) {
+         yjk = new Variable ("y_" + index + "_" + i);
+         nuevaClausula = new Clause ();
+         
+         nuevaClausula.add (yji.negado ());
+         varj = clausula.getClausula ().get (i);
+         nuevaClausula.add (varj);
+         nuevaClausula.add (yjk);
+         
+         yji = yjk;
+         resultado.add (nuevaClausula);
+      }
+      
+      // Ultima cláusula
+      nuevaClausula = new Clause ();
+      int tam = clausula.getClausula ().size ();
+
+      vari = clausula.getClausula ().get (tam - 2);
+      varj = clausula.getClausula ().get (tam - 1);
+      
+      nuevaClausula.add (yjk.negado ());
+      nuevaClausula.add (vari);
+      nuevaClausula.add (varj);
+      
+      resultado.add (nuevaClausula);
+
+      
+      
+      return resultado;
    }
 
    /**
     * Método que resuelve el caso de la transformación SAT-3SAT en el cual la clausula tiene 3 variables.
+    * @param index 
     * @param clausula clausula del SAT 
     * @return clasula del 3SAT
     */
-   private static ArrayList<Clause> case3 (Clause clausula) {
+   private static ArrayList<Clause> case3 (int index, Clause clausula) {
       ArrayList <Clause> resultado = new ArrayList<Clause> ();
       resultado.add (clausula);
       return resultado;
@@ -93,69 +141,83 @@ public class Transformator {
 
    /**
     * Método que resuelve el caso de la transformación SAT-3SAT en el cual la clausula tiene 2 variables.
+    * @param index 
     * @param clausula clausula del SAT 
     * @return clasula del 3SAT
     */
-   private static ArrayList<Clause> case2 (Clause clausula) {
+   private static ArrayList<Clause> case2 (int index, Clause clausula) {
       ArrayList <Clause> resultado = new ArrayList<Clause> ();
-      Clause clausula1  = new Clause ();
-      Clause clausula2  = new Clause ();
-      Variable auxVariable = new Variable ("y_1");
+      Clause nuevaClausula;
+      Variable yj1 = new Variable ("y_" + index + "_1");
       
-      Iterator <Variable> iter = clausula.getClausula ().iterator ();
-      while (iter.hasNext ()) {
-         Variable aux = iter.next ();
-         clausula1.add(aux);
-         clausula2.add(aux);
-      }
-      clausula1.add(auxVariable);
-      auxVariable.setNegado (true);
-      clausula2.add (auxVariable);
+      Variable var1 = clausula.getClausula ().get (0);
+      Variable var2 = clausula.getClausula ().get (1);
       
-      resultado.add(clausula1);
-      resultado.add(clausula2);
+      // Primera Clausula:
+      nuevaClausula = new Clause ();
+      nuevaClausula.add (var1);
+      nuevaClausula.add (var2);
+      nuevaClausula.add (yj1);
+      
+      resultado.add (nuevaClausula);
+      
+      // Primera Clausula:
+      nuevaClausula = new Clause ();
+      nuevaClausula.add (var1);
+      nuevaClausula.add (var2);
+      nuevaClausula.add (yj1.negado ());
+      
+      resultado.add (nuevaClausula);
+
       return resultado;
    }
 
    /**
     * Método que resuelve el caso de la transformación SAT-3SAT en el cual la clausula tiene 1 variables.
+    * @param index 
     * @param clausula clausula del SAT 
     * @return clasula del 3SAT
     */
-   private static ArrayList<Clause> case1 (Clause clausula) {
+   private static ArrayList<Clause> case1 (int index, Clause clausula) {
       ArrayList <Clause> resultado = new ArrayList<Clause> ();
-      Clause clausula1  = new Clause ();
-      Clause clausula2  = new Clause ();
-      Clause clausula3  = new Clause ();
-      Clause clausula4  = new Clause ();
-      Variable auxVariable1 = new Variable ("y_1");
-      Variable auxVariable2 = new Variable ("y_2");
+      Clause nuevaClausula;
+      Variable yj1 = new Variable ("y_" + index + "_1");
+      Variable yj2 = new Variable ("y_" + index + "_2");
       
-      Iterator <Variable> iter = clausula.getClausula ().iterator ();
-      while (iter.hasNext ()) {
-         Variable aux = iter.next ();
-         clausula1.add(aux);
-         clausula2.add(aux);
-         clausula3.add(aux);
-         clausula4.add(aux);
-      }
-      clausula1.add(auxVariable1);
-      clausula1.add(auxVariable2);
-      clausula2.add(auxVariable1);
-      clausula3.add(auxVariable2);
+      Variable var = clausula.getClausula ().get(0);
+
+      // Primera clausula.
+      nuevaClausula = new Clause ();
+      nuevaClausula.add (var);
+      nuevaClausula.add (yj1);
+      nuevaClausula.add (yj2);
       
-      auxVariable1.setNegado (true);
-      auxVariable2.setNegado (true);
+      resultado.add (nuevaClausula);
       
-      clausula2.add (auxVariable2);
-      clausula3.add (auxVariable1);
-      clausula4.add(auxVariable1);
-      clausula4.add(auxVariable2);
+      // Segunda clausula.
+      nuevaClausula = new Clause ();
+      nuevaClausula.add (var);
+      nuevaClausula.add (yj1);
+      nuevaClausula.add (yj2.negado ());
       
-      resultado.add(clausula1);
-      resultado.add(clausula2);
-      resultado.add(clausula3);
-      resultado.add(clausula4);
+      resultado.add (nuevaClausula);
+      
+      // Tercera clausula.
+      nuevaClausula = new Clause ();
+      nuevaClausula.add (var);
+      nuevaClausula.add (yj1.negado ());
+      nuevaClausula.add (yj2);
+      
+      resultado.add (nuevaClausula);
+      
+      // Cuarta clausula.
+      nuevaClausula = new Clause ();
+      nuevaClausula.add (var);
+      nuevaClausula.add (yj1.negado ());
+      nuevaClausula.add (yj2.negado ());
+      
+      resultado.add (nuevaClausula);
+
       return resultado;
    }
    

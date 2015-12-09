@@ -124,7 +124,7 @@ public class Variable implements Comparable<Variable> {
    @Override
    public String toString () {
       if (isNegado ())
-         return "$" + getNombre ();
+         return "¬" + getNombre ();
       else
          return getNombre ();
    }

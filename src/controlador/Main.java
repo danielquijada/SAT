@@ -1,27 +1,40 @@
+/**
+ * Final.TransformacionPolinomial.controlador.Main.java
+ * Practica Final. Transformación Polinomial entre SAT y 3SAT.
+ *
+ * Asignatura: Complejidad Computacional
+ * Universidad de La Laguna.
+ * Curso: 2015-2016
+ *
+ * Autores: 
+ *    Daniel E. Quijada Díaz
+ *       Contacto: daniventf@gmail.com
+ *    José Carlos Rodríguez Cortés
+ *       Contacto: joseka1234@gmail.com
+ *    Manuel Alejandro Rodríguez Santana
+ *       Contacto: manwelanza@gmail.com
+ *    Mauricio Manuel Cavalleri Sergent
+ *       Contacto: maurimanuel92@gmail.com
+ */
 package controlador;
 
-import instancias.SAT3Instance;
 import java.io.IOException;
 import utils.ReaderWriter;
+import utils.Transformator;
 
+
+/**
+ * Clase Main.
+ */
 public class Main {
+   
+   private static final String INPUT_FILE = "res/input.txt";
+   private static final String OUTPUT_FILE = "res/output.txt";
 
-	public static void main(String[] args) {
-		SAT3Instance ins = new SAT3Instance();
-		ReaderWriter rw = new ReaderWriter();
-		
-		// Prueba lectura
-		try {
-			rw.read("res/Entrada.in", ins);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// Prueba escritura
-		try {
-			rw.write("res/Salida.out", ins);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+   /**
+    * Escribe en la salida indicada el resultado de la conversion de la entrada indicada.
+    */
+   public static void main (String[] args) throws IOException {
+      ReaderWriter.write (OUTPUT_FILE, Transformator.trans (ReaderWriter.read (INPUT_FILE)));
+   }
 }
